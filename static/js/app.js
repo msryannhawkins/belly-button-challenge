@@ -2,8 +2,19 @@
 // https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json
 // Use console.log
 
+// establish the link in a variable
+const dataLink = "https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json";
+
+// Fetch the JSON data and console log it
+d3.json(dataLink).then(function(data) {
+  console.log(data);
+});
+
 // create a horizontal bar chart with a dropdown menu to display the top 10 OTUs(the microbial species) found in that individual
     // Use Use sample_values as the values for the bar chart.
+    let sortedValues = data.sort((a, b) => b.sample_values - a.sample_values);
+    console.log(sortedValues);
+
     // Use console.log
 
 
