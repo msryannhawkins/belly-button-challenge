@@ -6,54 +6,106 @@
 const dataLink = "https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json";
 
 // Fetch the JSON data and console log it
-d3.json(dataLink).then(function(data) {
-  console.log(data);
-});
+d3.json(dataLink).then((data) => {
+    console.log(data);
 
-// create a horizontal bar chart with a dropdown menu to display the top 10 OTUs(the microbial species) found in that individual
     // Use Use sample_values as the values for the bar chart.
-    let sortedValues = data.sort((a, b) => b.sample_values - a.sample_values);
+    let sortedValues = data.samples[0].sample_values.slice(0, 10);
     console.log(sortedValues);
 
-    // Use console.log
-
-
+    //-----Bar Chart----
     // Use otu_ids as the labels for the bar chart.
     // Use console.log
-
+    let otuIds = data.samples[0].otu_ids.slice(0, 10);
+    console.log(otuIds);
 
     // Use otu_labels as the hovertext for the chart.
     // Use console.log
+    let otuLabels = data.samples[0].otu_labels.slice(0, 10);
+    console.log(otuLabels);
 
 
+    let trace1 = {
+        x: sortedValues.reverse(),
+        y: otuIds.map(a => `OTU ID ${a}`).reverse(),
+        text: otuLabels.reverse(),
+        type: 'bar',
+        orientation: 'h'
+      };
+      
+      let plotPoints = [trace1];
+      
+      let layout = {
+        title: 'Top 10 OTUs'
+      };
+      
+      Plotly.newPlot("bar", plotPoints, layout);
 
-
-// Create a bubble chart that displays each sample.
-
+   
+   
+    // ---------Bubble Chart-------
     // Use otu_ids for the x values.
     // Use console.log
-
+    let otuIds2 = data.samples[0].otu_ids;
+    console.log(otuIds2);
 
     // Use sample_values for the y values.
     // Use console.log
-    
-
-    // Use sample_values for the marker size.
-    // Use console.log
-
-
-    // Use otu_ids for the marker colors.
-    // Use console.log
-
+    let sortedValues2 = data.samples[0].sample_values;
+    console.log(sortedValues2); 
 
     // Use otu_labels for the text values.
     // Use console.log
+    let otuLabels2 = data.samples[0].otu_labels;
+    console.log(otuLabels2);
+
+
+    let trace2 = {
+        x: otuIds2,
+        y: sortedValues2,
+        text: otuLabels2,
+        mode: 'markers',
+        marker: {
+
+            size: sortedValues2, 
+            color: otuIds2
+        }};
+      
+      let bubble = [trace2];
+      
+      let layout2 = {
+        title: 'Frequency'
+      };
+      
+      Plotly.newPlot("bubble", bubble, layout2);
+
+     // Display the sample metadata, i.e., an individual's demographic information.
+     // Use console.log 
+     // <div id="sample-metadata" class="panel-body"></div>
+     //let metaText = d3.select(".panel-body").text();
+     // Initializes the page with a default plot--table????
+     function init() {
+      Plotly.newPlot("plot", data);
+      }
+
+      d3.selectAll(".panel-body").on("change", updatePlotly);
+          
+        // This function is called when a dropdown menu item is selected
+            function updatePlotly() {
+              // Use D3 to select the dropdown menu
+              let dropdownMenu = d3.select(".panel-body");
+              // Assign the value of the dropdown menu option to a variable
+              let dataset = dropdownMenu.property("id");
+
+              }
+              init();
+
+      
+});
 
 
 
 
-// Display the sample metadata, i.e., an individual's demographic information.
-// Use console.log
 
 
 
