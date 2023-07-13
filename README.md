@@ -7,7 +7,8 @@ I was asked to create a horizontal bar chart with a dropdown menu to display the
     *Used sample_values as the values for the bar chart.
     *Used otu_ids as the labels for the bar chart.
     *Used otu_labels as the hovertext for the chart.
-PICTURE
+![alt text](https://github.com/msryannhawkins/belly-button-challenge/blob/main/images/Screenshot%202023-07-13%20at%206.28.33%20PM.png
+ "BarChart")
 
 Next, I needed to create a bubble chart that displayed each sample. To do this I:
     *Used otu_ids for the x values.
@@ -15,9 +16,13 @@ Next, I needed to create a bubble chart that displayed each sample. To do this I
     *Used sample_values for the marker size.
     *Used otu_ids for the marker colors.
     *Used otu_labels for the text values.
-PICTURE
+![alt text](https://github.com/msryannhawkins/belly-button-challenge/blob/main/images/Screenshot%202023-07-13%20at%206.28.42%20PM.png
+ "BubbleChart")
 
 I then displayed the sample metadata, i.e., an individual's demographic information and each key-value pair from the metadata JSON object somewhere on the page.I updated all the plots when a new sample was selected. With this, I was encouraged to create any layout that I liked for my dashboard. Once I created my dashboard, I deployed my app to a free static page hosting service, GitHub Pages. 
-
+![alt text](https://github.com/msryannhawkins/belly-button-challenge/blob/main/images/Screenshot%202023-07-13%20at%206.28.48%20PM.png
+ "DropDown")
+ ![alt text](https://github.com/msryannhawkins/belly-button-challenge/blob/main/images/Screenshot%202023-07-13%20at%206.28.57%20PM.png
+ "DemoInfo")
 
 Throughout each step, I made sure to use console.log inside of my JavaScript code to see what the data looked like. To help me throughout this task, I refered to the Plotly.js documentation when building the plots. 
