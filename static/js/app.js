@@ -3,11 +3,44 @@
 // Use console.log
 
 // establish the link in a variable
-const dataLink = "https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json";
+const data = "https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json";
 
 // Fetch the JSON data and console log it
-d3.json(dataLink).then((data) => {
-    console.log(data);
+let promise = d3.json(data);
+console.log(promise);
+
+function metaDatabase(id) {
+
+  promise.then(function (data) {
+
+    //pull metadata through a variable
+    let metaData = data.metadata;
+
+    //filter for only the data connected to the id selected from the for loop
+    let filteredID = metaData.filter(value => value.id == id)[0];
+
+    //d3 to select sample-metadata id in the html file
+    let info = d3.select('#sample-metadata');
+
+    info.html('');
+
+    //object.entries is used for key-value pairs in filteredID dict. and puts them into individual arrays
+    Object.entries(filteredID)
+      //loop through each array and use a claaback to extract each key and value pair
+      .forEach(([key, value]) => {
+        //append to add on to th h5 tag and pass the Key Value data as text so that is is displayed on the page
+        info.append('h5')
+          .text(`${key}: ${value}`);
+      })
+  })
+};
+
+
+
+
+
+function charts(id) {
+  promise.then(function (data) {
 
     // Use Use sample_values as the values for the bar chart.
     let sortedValues = data.samples[0].sample_values.slice(0, 10);
@@ -26,23 +59,23 @@ d3.json(dataLink).then((data) => {
 
 
     let trace1 = {
-        x: sortedValues.reverse(),
-        y: otuIds.map(a => `OTU ID ${a}`).reverse(),
-        text: otuLabels.reverse(),
-        type: 'bar',
-        orientation: 'h'
-      };
-      
-      let plotPoints = [trace1];
-      
-      let layout = {
-        title: 'Top 10 OTUs'
-      };
-      
-      Plotly.newPlot("bar", plotPoints, layout);
+      x: sortedValues.reverse(),
+      y: otuIds.map(a => `OTU ID ${a}`).reverse(),
+      text: otuLabels.reverse(),
+      type: 'bar',
+      orientation: 'h'
+    };
 
-   
-   
+    let plotPoints = [trace1];
+
+    let layout = {
+      title: 'Top 10 OTUs'
+    };
+
+    Plotly.newPlot("bar", plotPoints, layout);
+
+
+
     // ---------Bubble Chart-------
     // Use otu_ids for the x values.
     // Use console.log
@@ -52,7 +85,7 @@ d3.json(dataLink).then((data) => {
     // Use sample_values for the y values.
     // Use console.log
     let sortedValues2 = data.samples[0].sample_values;
-    console.log(sortedValues2); 
+    console.log(sortedValues2);
 
     // Use otu_labels for the text values.
     // Use console.log
@@ -61,72 +94,62 @@ d3.json(dataLink).then((data) => {
 
 
     let trace2 = {
-        x: otuIds2,
-        y: sortedValues2,
-        text: otuLabels2,
-        mode: 'markers',
-        marker: {
+      x: otuIds2,
+      y: sortedValues2,
+      text: otuLabels2,
+      mode: 'markers',
+      marker: {
 
-            size: sortedValues2, 
-            color: otuIds2
-        }};
-      
-      let bubble = [trace2];
-      
-      let layout2 = {
-        title: 'Frequency'
-      };
-      
-      Plotly.newPlot("bubble", bubble, layout2);
-
-     // Display the sample metadata, i.e., an individual's demographic information.
-     // Use console.log 
-     // <div id="sample-metadata" class="panel-body"></div>
-     //let metaText = d3.select(".panel-body").text();
-     // Initializes the page with a default plot--table????
-     function init() {
-      Plotly.newPlot("plot", data);
+        size: sortedValues2,
+        color: otuIds2
       }
+    };
 
-      d3.selectAll(".panel-body").on("change", updatePlotly);
-          
-        // This function is called when a dropdown menu item is selected
-            function updatePlotly() {
-              // Use D3 to select the dropdown menu
-              let dropdownMenu = d3.select(".panel-body");
-              // Assign the value of the dropdown menu option to a variable
-              let dataset = dropdownMenu.property("id");
+    let bubble = [trace2];
 
-              }
-              init();
+    let layout2 = {
+      title: 'Frequency'
+    };
 
-      
-});
+    Plotly.newPlot("bubble", bubble, layout2);
+  }
+)};
 
 
+function dropDownChange(id){
+  charts(id);
+  metaDatabase(info);
+};
+
+function init() {
 
 
+  promise.then(function(data) {
 
+    console.log(data);
 
+    let dropDown = d3.select("#selDataset")
+    // need to make an array to refer to for ids only: use names from samples
+    let names = data.names;
 
-// Display each key-value pair from the metadata JSON object somewhere on the page.
-// Use console.log
+    //this is the ex as to how to add in text to the dropdown
+    //dropDown.append("option").text("hello world").property("value", "hello_world")
+    //dropDown.append("option").text(data.metadata[0].id).property("value", data.metadata[0].id)
+    //dropDown.append("option").text(names[0]).property("value", names[0]);
+    //create a for loop to iterate through all the ids and put them in the dropdown as an option
+    //focus only on metadata>id: Iterate through the names Array
+    for (let i = 0; i < names.length; i++) {
 
+      dropDown.append("option").text(names[i]).property("value", names[i]);
 
-// Update all the plots when a new sample is selected. Additionally, you are welcome to create any layout that you would like for your dashboard.
-// Use console.log
+    }
 
+    charts(names[0])
+    metaDatabase(names[0])
+  });
 
+}
 
-// Deploy your app to a free static page hosting service, such as GitHub Pages.
- 
-// Submit the links to your deployment and your GitHub repo. 
-// Ensure that your repository has regular commits and a thorough README.md file.
+init();
 
-
-
-// -------------------------Challenge-------------------------
-// Adapt the Gauge Chart from https://plot.ly/javascript/gauge-charts/Links to an external site. to plot the weekly washing frequency of the individual.
-// You will need to modify the example gauge code to account for values ranging from 0 through 9.
-// Update the chart whenever a new sample is selected.
 
