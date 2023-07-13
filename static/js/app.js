@@ -33,6 +33,7 @@ function metaDatabase(id) {
           .text(`${key}: ${value}`);
       })
   })
+
 };
 
 
@@ -112,6 +113,9 @@ function charts(id) {
     };
 
     Plotly.newPlot("bubble", bubble, layout2);
+
+    // ---------Gauge-------
+
   }
 )};
 

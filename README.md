@@ -19,7 +19,5 @@ PICTURE
 
 I then displayed the sample metadata, i.e., an individual's demographic information and each key-value pair from the metadata JSON object somewhere on the page.I updated all the plots when a new sample was selected. With this, I was encouraged to create any layout that I liked for my dashboard. Once I created my dashboard, I deployed my app to a free static page hosting service, GitHub Pages. 
 
-Adapting the Guage Chart was optional, but I was eager to take on the challenge. I used this guage to plot the weekly washing frequency of the individual. I modified the example gauge code to account for values ranging from 0 through 9 and updated the chart whenever a new sample was selected.
-PICTURE
 
 Throughout each step, I made sure to use console.log inside of my JavaScript code to see what the data looked like. To help me throughout this task, I refered to the Plotly.js documentation when building the plots. 
