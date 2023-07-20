@@ -122,7 +122,7 @@ function charts(id) {
 
 function dropDownChange(id){
   charts(id);
-  metaDatabase(info);
+  metaDatabase(id); // Fixed the argument passed here; should be 'id', not 'info'
 };
 
 function init() {
@@ -150,6 +150,15 @@ function init() {
 
     charts(names[0])
     metaDatabase(names[0])
+
+        // Add an event listener to the dropdown element
+        dropDown.on("change", function() {
+          let selectedId = dropDown.property("value");
+          dropDownChange(selectedId);
+        });
+    
+        // Call dropDownChange with the initial selected ID
+        dropDownChange(names[0]);
   });
 
 }
